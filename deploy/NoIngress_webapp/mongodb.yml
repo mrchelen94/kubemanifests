@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: mongodb
-        image: docker.io/mongo:4.4.18 # Use a specific version in production
+        image: docker.io/mongo:4.4.18 # Use a specific version in production without AVX
         ports:
         - containerPort: 27017
         env:
