@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-webapp
+  name: nginx
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: my-webapp
+      app: nginx
   template:
     metadata:
       labels:
-        app: my-webapp
+        app: nginx
     spec:
       containers:
-      - name: webapp-container
+      - name: nginx
         image: docker.io/nginx:1.29.3
         ports:
         - containerPort: 80
@@ -21,9 +21,15 @@ spec:
         - name: MONGODB_URI
           value: "mongodb://mongodb-service:27017/mydatabase" # Example, adjust based on your MongoDB setup
         volumeMounts:
-        - name: web-volume
-          mountPath: /data/web
+        - name: website
+          mountPath: /var/www/html
+        volumeMounts:
+        - name: log
+          mountPath: /var/log/
       volumes:
-      - name: web-volume
+      - name: website
         emptyDir:
-          sizeLimit: 5Gi    
+          sizeLimit: 3Gi
+      - name: log
+        emptyDir:
+          sizeLimit: 3Gi        
