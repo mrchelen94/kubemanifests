@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-webapp
+  name: nginx
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: my-webapp
+      app: nginx
   template:
     metadata:
       labels:
-        app: my-webapp
+        app: nginx
     spec:
       containers:
-      - name: webapp-container
+      - name: nginx
         image: docker.io/nginx:1.29.3
         ports:
         - containerPort: 80
@@ -21,9 +21,26 @@ spec:
         - name: MONGODB_URI
           value: "mongodb://mongodb-service:27017/mydatabase" # Example, adjust based on your MongoDB setup
         volumeMounts:
-        - name: web-volume
-          mountPath: /data/web
+        - mountPath: /etc/nginx # mount nginx-conf volumn to /etc/nginx
+          readOnly: true
+          name: nginx-conf
+        - name: log
+          mountPath: /var/log/nginx
+        - name: website
+          mountPath: /var/www/nginx/html
+          # subPath: index.html
       volumes:
-      - name: web-volume
+      - name: nginx-conf
+        configMap:
+          name: nginx-conf # place ConfigMap `nginx-conf` on /etc/nginx
+          items:
+            - key: nginx.conf
+              path: nginx.conf
+        # configMap:
+        #   name: index-file
+        #   items:
+        #     - key: index.html
+        #       path: index.html      
+      - name: log
         emptyDir:
           sizeLimit: 5Gi    
