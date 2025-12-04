@@ -4,5 +4,5 @@ metadata:
   name: createdb
 data:
   createdb.conf: |
-    db.createCollection("user")
+    db.createCollection("web")
     db.createCollection("app")

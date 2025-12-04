@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: mongodb
 spec:
-  # serviceName: "mongodb-service"
   replicas: 1 # For a single instance; use more for a replica set
   selector:
     matchLabels:

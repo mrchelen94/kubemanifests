@@ -11,6 +11,16 @@ data:
     events {
       worker_connections  10240;
     }
+      stream {
+        upstream mongodb_backend {
+            server mongodb-service.default.svc.cluster.local:27017; # Replace with your MongoDB Service name and namespace
+        }
+
+        server {
+            listen 27017; # Port Nginx listens on for MongoDB connections
+            proxy_pass mongodb_backend;
+        }
+     }
     http {
       log_format  main
               'remote_addr:$remote_addr\t'
@@ -34,20 +44,3 @@ data:
           }
        }
     }
- #     include /etc/nginx/virtualhost/virtualhost.conf;
- #   }
-  # virtualhost.conf: |
-  #   upstream app {
-  #     server localhost:8080;
-  #     keepalive 1024;
-  #   }
-  #   server {
-  #     listen 80 default_server;
-  #     root /usr/local/app;
-  #     access_log /var/log/nginx/app.access_log main;
-  #     error_log /var/log/nginx/app.error_log;
-  #     location / {
-  #       proxy_pass http://app/;
-  #       proxy_http_version 1.1;
-  #     }
-  #   }

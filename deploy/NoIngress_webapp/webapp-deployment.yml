@@ -26,9 +26,8 @@ spec:
           name: nginx-conf
         - name: log
           mountPath: /var/log/nginx
-        - name: website
+        - name: custom-nginx
           mountPath: /var/www/nginx/html
-          # subPath: index.html
       volumes:
       - name: nginx-conf
         configMap:
@@ -36,11 +35,12 @@ spec:
           items:
             - key: nginx.conf
               path: nginx.conf
-        # configMap:
-        #   name: index-file
-        #   items:
-        #     - key: index.html
-        #       path: index.html      
+      - name: custom-nginx
+        configMap:
+          name: nginx-index # place Configmap "index.html" on /var/www/nginx/html
+          items:
+            - key: index.html
+              path: index.html      
       - name: log
         emptyDir:
           sizeLimit: 5Gi    
