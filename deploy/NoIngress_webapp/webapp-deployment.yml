@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: nginx
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: nginx
@@ -21,15 +21,31 @@ spec:
         - name: MONGODB_URI
           value: "mongodb://mongodb-service:27017/mydatabase" # Example, adjust based on your MongoDB setup
         volumeMounts:
+        - name: nginx-conf
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+          readOnly: true
         - name: website
-          mountPath: /var/www/html
-        volumeMounts:
+          mountPath: /var/www/nginx/html #index.html
+          # subPath: index.html
+          # readOnly: true
         - name: log
-          mountPath: /var/log/
+          mountPath: /var/log/nginx
       volumes:
+      - name: nginx-conf
+        configMap:
+          name: nginx-conf
+          items:
+            - key: nginx.conf
+              path: nginx.conf
       - name: website
+        # configMap:
+        #   name: index-file
+        #   items:
+        #     - key: index.html
+        #       path: index.html
         emptyDir:
           sizeLimit: 3Gi
       - name: log
         emptyDir:
-          sizeLimit: 3Gi        
+          sizeLimit: 3Gi
