@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> a5f6400c536dbd47fdac55bf281d7e82ada2405f
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -5,6 +9,7 @@ metadata:
 data:
   nginx.conf: |
     user nginx;
+<<<<<<< HEAD
     worker_processes  1;
     events {
       worker_connections  10240;
@@ -18,4 +23,43 @@ data:
             index  index.html index.htm;
         }
       }
+=======
+    worker_processes  3;
+    error_log  /var/log/nginx/error.log;
+    events {
+      worker_connections  10240;
+    }
+      stream {
+        upstream mongodb_backend {
+            server mongodb-service.default.svc.cluster.local:27017; # Replace with your MongoDB Service name and namespace
+        }
+
+        server {
+            listen 27017; # Port Nginx listens on for MongoDB connections
+            proxy_pass mongodb_backend;
+        }
+     }
+    http {
+      log_format  main
+              'remote_addr:$remote_addr\t'
+              'time_local:$time_local\t'
+              'method:$request_method\t'
+              'uri:$request_uri\t'
+              'host:$host\t'
+              'status:$status\t'
+              'bytes_sent:$body_bytes_sent\t'
+              'referer:$http_referer\t'
+              'useragent:$http_user_agent\t'
+              'forwardedfor:$http_x_forwarded_for\t'
+              'request_time:$request_time';
+      access_log	/var/log/nginx/access.log main;
+      server {
+          listen       80;
+          server_name  _;
+          location / {
+              root   /var/www/nginx/html;
+              index  index.html index.htm;
+          }
+       }
+>>>>>>> a5f6400c536dbd47fdac55bf281d7e82ada2405f
     }
