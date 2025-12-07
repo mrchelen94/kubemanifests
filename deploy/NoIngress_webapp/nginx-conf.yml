@@ -12,15 +12,15 @@ data:
       worker_connections  10240;
     }
       stream {
-        upstream mongodb_backend {
-            server mongodb-service.default.svc.cluster.local:27017; # Replace with your MongoDB Service name and namespace
-        }
+        upstream webtasks-service {
+            server webtasks-service.default.svc.cluster.local:3000;
+            }
 
-        server {
-            listen 27017; # Port Nginx listens on for MongoDB connections
-            proxy_pass mongodb_backend;
+       server {
+            listen 3000;
+            proxy_pass webtasks-service;
         }
-     }
+    }
     http {
       log_format  main
               'remote_addr:$remote_addr\t'
@@ -38,6 +38,7 @@ data:
       server {
           listen       80;
           server_name  _;
+          
           location / {
               root   /var/www/nginx/html;
               index  index.html index.htm;

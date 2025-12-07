@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webtasks-service
+spec:
+  type: NodePort
+  # clusterIP: None
+  selector:
+    app: webtasks
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30091
