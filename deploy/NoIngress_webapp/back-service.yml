@@ -4,7 +4,6 @@ metadata:
   name: webtasks-service
 spec:
   type: NodePort
-  # clusterIP: None
   selector:
     app: webtasks
   ports:
