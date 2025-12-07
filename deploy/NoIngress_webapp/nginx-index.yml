@@ -19,7 +19,7 @@ data:
 
         <script>
         // API endpoint
-        const API_URL = 'http://task-list:9091/tasks';
+        const API_URL = 'http://task-list:30090/tasks';
 
         // Fetch tasks from the API
         async function fetchTasks() {

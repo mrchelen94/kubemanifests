@@ -17,9 +17,6 @@ spec:
         image: docker.io/nginx:1.29.3
         ports:
         - containerPort: 80
-        # env:
-        # - name: MONGODB_URI
-        #   value: mongo-config # Example, adjust based on your MongoDB setup
         volumeMounts:
         - mountPath: /etc/nginx # mount nginx-conf volumn to /etc/nginx
           readOnly: true
