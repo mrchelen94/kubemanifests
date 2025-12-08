@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: mongodb
+        image: docker.io/mongo:4.4.6 # Use a specific version in production without AVX
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: bd-volume
+          mountPath: /data/db
+      volumes:
+      - name: bd-volume
+        emptyDir:
+          sizeLimit: 5Gi    

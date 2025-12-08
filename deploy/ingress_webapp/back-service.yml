@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webtasks-service
+spec:
+  selector:
+    app: webtasks
+  ports:
+  - port: 3000
+    targetPort: 3000
