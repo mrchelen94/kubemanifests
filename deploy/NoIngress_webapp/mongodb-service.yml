@@ -9,4 +9,3 @@ spec:
     - protocol: TCP
       port: 27017
       targetPort: 27017
-  # clusterIP: None # For headless service, useful for StatefulSets

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webtasks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webtasks
+  template:
+    metadata:
+      labels:
+        app: webtasks
+    spec:
+      containers:
+        - name: webtasks
+          image: docker.io/oracleguy04/k8snodejs:1.0
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always

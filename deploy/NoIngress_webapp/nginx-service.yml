@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service
+  name: webapp-service
 spec:
-  type: NodePort # Or ClusterIP if only internal access
+  type: NodePort
   selector:
     app: nginx
   ports:
